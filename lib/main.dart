@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_practice_app/home_screen.dart';
+import 'package:riverpod_practice_app/user.dart';
 
 //=====================================
 // Providers
@@ -14,6 +15,11 @@ final nameProvider = Provider<String>(
 
 final nameProvider1 = StateProvider<String?>((ref) {
   return "Hamza";
+});
+
+final userProvider = StateNotifierProvider<UserNotifier, User>((ref) {
+  return UserNotifier();
+  // return UserNotifier(const User(name: "Khalid", age: 22));
 });
 
 void main() {
