@@ -1,15 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:riverpod_practice_app/home_screen.dart';
 import 'package:riverpod_practice_app/user.dart';
+import 'package:http/http.dart' as http;
 
 //=====================================
-// Providers
+// Future Provider
 //=====================================
+// Alternative of Future Builder
 
-final userChangeNotifierProvider = ChangeNotifierProvider(
-  (ref) => UserNotifierUsingChanage(),
-);
+final fetchUserProvider = FutureProvider((ref) {
+  return UserRepo().fetchUserData();
+});
+
+class UserRepo {
+  Future<MyUser> fetchUserData() async {
+    final res = await http.get(
+      Uri.parse('https://jsonplaceholder.typicode.com/users/1'),
+    );
+    return MyUser.fromJson(jsonDecode(res.body));
+  }
+}
 
 void main() {
   runApp(
@@ -37,4 +51,4 @@ class MyApp extends StatelessWidget {
 }
 
 
-// 48:13
+// 01:13:54

@@ -9,35 +9,32 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Getting Values & using it in ui
-    final user = ref.watch(userChangeNotifierProvider);
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              onSubmitted: (value) {
-                List values = value.split(',').toList();
-                // devtools.log(values.toString());
+    final user = ref.watch(fetchUserProvider);
 
-                // Setting Values
-                ref.read(userChangeNotifierProvider.notifier).updateName(
-                      values[0],
-                    );
-                ref.read(userChangeNotifierProvider.notifier).updateAge(
-                      values[1],
-                    );
-              },
+    return user.when(
+      data: (data) {
+        return Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(data.name ?? "Data Nhi ha."),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
-            // Displaying Values
-            Text("${user.user.name}   ${user.user.age}"),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
+      error: (error, stackTrace) {
+        return Text("Something went wrong: $error");
+      },
+      loading: () {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }
