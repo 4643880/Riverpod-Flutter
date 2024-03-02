@@ -16,6 +16,9 @@ class User {
   }
 }
 
+// ================================================================
+// State Notifier with StateNotifierProvider
+// ================================================================
 class UserNotifier extends StateNotifier<User> {
   // 1: Origional passes value from stateNotifierProvider that is inside main.dart
   // UserNotifier(super.state);
@@ -38,5 +41,24 @@ class UserNotifier extends StateNotifier<User> {
   // will update age
   void updateAge(String a) {
     state = state.copyWith(age: int.tryParse(a));
+  }
+}
+
+// ================================================================
+// Change Notifier with ChangeNotifierProvider
+// ================================================================
+class UserNotifierUsingChanage extends ChangeNotifier {
+  User user = const User(age: 0, name: "");
+
+  // will update name
+  void updateName(String n) {
+    user = user.copyWith(name: n);
+    notifyListeners();
+  }
+
+  // will update age
+  void updateAge(String a) {
+    user = user.copyWith(age: int.tryParse(a));
+    notifyListeners();
   }
 }
