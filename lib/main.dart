@@ -1,29 +1,26 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:riverpod_practice_app/home_screen.dart';
-import 'package:riverpod_practice_app/user.dart';
 import 'package:http/http.dart' as http;
 
 //=====================================
-// Future Provider
+// Stream Provider
 //=====================================
-// Alternative of Future Builder
+// Alternative of Stream Builder
 
-final fetchUserProvider = FutureProvider((ref) {
-  return UserRepo().fetchUserData();
-});
-
-class UserRepo {
-  Future<MyUser> fetchUserData() async {
-    final res = await http.get(
-      Uri.parse('https://jsonplaceholder.typicode.com/users/1'),
-    );
-    return MyUser.fromJson(jsonDecode(res.body));
+final fetchStreamProvider = StreamProvider((ref) {
+  Stream<int> getSeconds() async* {
+    for (int i = 0; i <= 10; i++) {
+      yield i;
+      await Future.delayed(const Duration(seconds: 1));
+    }
   }
-}
+
+  return getSeconds();
+});
 
 void main() {
   runApp(
@@ -51,4 +48,4 @@ class MyApp extends StatelessWidget {
 }
 
 
-// 01:13:54
+// 01:18:18
