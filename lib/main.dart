@@ -12,6 +12,9 @@ import 'package:riverpod_practice_app/user.dart';
 
 final fetchUserProvider =
     FutureProvider.family.autoDispose((ref, String input) {
+  ref.keepAlive();
+  ref.onDispose(() {});
+  ref.onCancel(() {});
   return UserRepo().fetchUserData(userId: input);
 });
 
